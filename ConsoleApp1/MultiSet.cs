@@ -121,6 +121,10 @@ namespace ConsoleApp1
                     continue;
                 RemoveAll(el.Key);
             }
+            foreach(var el in mset.ToList())
+            {
+                mset[el.Key] = 1;
+            }
             return this;
         }
         public MultiSet<T> SymmetricExceptWith(IEnumerable<T> other)
@@ -228,6 +232,8 @@ namespace ConsoleApp1
                 for (int i = 0; i < multiplicity; i++)
                     output.Append($"{item}, ");
             }
+            if (output.Length == 0)
+                return "Multiset is empty";
             return output.ToString(0, output.Length - 2);
         }
         private void NotNullReturnsList(IEnumerable<T> other, out List<T> tempList)
@@ -237,15 +243,32 @@ namespace ConsoleApp1
             tempList = new List<T>(other);
         }
         public static MultiSet<T> Empty => new MultiSet<T>();
-        //public static MultiSet<T> operator +(MultiSet<T> first, MultiSet<T> second)
-        //{
-
-        //}
-        //public static MultiSet<T> operator -(MultiSet<T> first, MultiSet<T> second)
-        //{
-
-        //}
-
+        public static MultiSet<T> operator +(MultiSet<T> first, MultiSet<T> second)
+        {
+            first.NotNullReturnsList(first, out List<T> tempList1);
+            second.NotNullReturnsList(second, out List<T> tempList2);
+            var listToCreate = tempList1.Concat(tempList2);
+            return new MultiSet<T>(listToCreate);
+        }
+        public static MultiSet<T> operator -(MultiSet<T> first, MultiSet<T> second)
+        {
+            first.NotNullReturnsList(first, out List<T> tempList1);
+            second.NotNullReturnsList(second, out List<T> tempList2);
+            var newSet = new MultiSet<T>(tempList1);
+            foreach(var item in tempList2)
+            {
+                newSet.RemoveAll(item);
+            }
+            return newSet;
+        }
+        public static MultiSet<T> operator *(MultiSet<T> first, MultiSet<T> second)
+        {
+            first.NotNullReturnsList(first, out List<T> tempList1);
+            second.NotNullReturnsList(second, out List<T> tempList2);
+            var newSet = new MultiSet<T>(tempList1);
+            newSet.IntersectWith(tempList2);
+            return newSet;
+        }
 
         public static bool IsMultiSetReadonly(MultiSet<T> ms) => ms.IsReadOnly == true ? throw new NotSupportedException() : false;
     }
