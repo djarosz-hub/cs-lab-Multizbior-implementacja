@@ -3,6 +3,7 @@ using ConsoleApp1;
 using System.Text;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 namespace UnitTestProject1
 {
@@ -150,6 +151,201 @@ namespace UnitTestProject1
             MultiSet<char> mschar = new MultiSet<char>();
             mschar.Add('a');
             Assert.AreEqual(false, mschar.Contains('b'));
+        }
+        [TestMethod]
+        public void UnionMs()
+        {
+            char[] chars = new char[] { 'a', 'b', 'c', 'd', 'e' };
+            var ms = new MultiSet<char>(chars);
+            char[] chars2 = new char[] { 'a', 'b', 'x' };
+            var ms2 = new MultiSet<char>(chars2);
+            ms = ms.UnionWith(ms2);
+            string output = "a, a, b, b, c, d, e, x";
+            Assert.AreEqual(output, ms.ToString());
+        }
+        [TestMethod]
+        public void ExceptMs()
+        {
+            char[] chars = new char[] { 'a', 'b', 'c', 'd', 'e' };
+            var ms = new MultiSet<char>(chars);
+            char[] chars2 = new char[] { 'a', 'b', 'x' };
+            var ms2 = new MultiSet<char>(chars2);
+            ms = ms.ExceptWith(ms2);
+            string output = "c, d, e";
+            Assert.AreEqual(output, ms.ToString());
+        }
+        [TestMethod]
+        public void IntersectMs()
+        {
+            char[] chars = new char[] { 'a', 'b', 'c', 'd', 'e' };
+            var ms = new MultiSet<char>(chars);
+            char[] chars2 = new char[] { 'a', 'b', 'x' };
+            var ms2 = new MultiSet<char>(chars2);
+            ms = ms.IntersectWith(ms2);
+            string output = "a, b";
+            Assert.AreEqual(output, ms.ToString());
+        }
+        [TestMethod]
+        public void SymmetricExceptMs()
+        {
+            char[] chars = new char[] { 'a', 'b', 'c', 'd', 'e' };
+            var ms = new MultiSet<char>(chars);
+            char[] chars2 = new char[] { 'a', 'b', 'x' };
+            var ms2 = new MultiSet<char>(chars2);
+            ms = ms.SymmetricExceptWith(ms2);
+            string output = "x, c, d, e";
+            Assert.AreEqual(output, ms.ToString().Trim());
+        }
+        [TestMethod]
+        public void IsSubsetMs()
+        {
+            char[] chars = new char[] { 'a', 'b', 'c', 'd', 'e' };
+            var ms = new MultiSet<char>(chars);
+            char[] chars2 = new char[] { 'a', 'b', 'c' };
+            var ms2 = new MultiSet<char>(chars2);
+            Assert.AreEqual(true, ms2.IsSubsetOf(ms));
+        }
+        [TestMethod]
+        public void IsNotSubsetMs()
+        {
+            char[] chars = new char[] { 'a', 'b', 'c', 'd', 'e' };
+            var ms = new MultiSet<char>(chars);
+            char[] chars2 = new char[] { 'a', 'b', 'x' };
+            var ms2 = new MultiSet<char>(chars2);
+            Assert.AreEqual(false, ms2.IsSubsetOf(ms));
+        }
+        [TestMethod]
+        public void IsProperSubsetMs()
+        {
+            char[] chars = new char[] { 'a', 'b', 'c', 'd', 'e' };
+            var ms = new MultiSet<char>(chars);
+            char[] chars2 = new char[] { 'a', 'b', 'c' };
+            var ms2 = new MultiSet<char>(chars2);
+            Assert.AreEqual(true, ms2.IsProperSubsetOf(ms));
+        }
+        [TestMethod]
+        public void IsNotProperSubsetMs()
+        {
+            char[] chars = new char[] { 'a', 'b', 'c', 'd', 'e' };
+            var ms = new MultiSet<char>(chars);
+            char[] chars2 = new char[] { 'a', 'b', 'c', 'd', 'e' };
+            var ms2 = new MultiSet<char>(chars2);
+            Assert.AreEqual(false, ms2.IsProperSubsetOf(ms));
+        }
+        [TestMethod]
+        public void IsSupersetMs()
+        {
+            char[] chars = new char[] { 'a', 'b', 'c', 'd', 'e' };
+            var ms = new MultiSet<char>(chars);
+            char[] chars2 = new char[] { 'a', 'b', 'c' };
+            var ms2 = new MultiSet<char>(chars2);
+            Assert.AreEqual(true, ms.IsSupersetOf(ms2));
+        }
+        [TestMethod]
+        public void IsNotSupersetMs()
+        {
+            char[] chars = new char[] { 'a', 'b', 'c', 'd', 'e' };
+            var ms = new MultiSet<char>(chars);
+            char[] chars2 = new char[] { 'a', 'b', 'x' };
+            var ms2 = new MultiSet<char>(chars2);
+            Assert.AreEqual(false, ms.IsSupersetOf(ms2));
+        }
+        [TestMethod]
+        public void IsProperSupersetMs()
+        {
+            char[] chars = new char[] { 'a', 'b', 'c', 'd', 'e' };
+            var ms = new MultiSet<char>(chars);
+            char[] chars2 = new char[] { 'a', 'b', 'c' };
+            var ms2 = new MultiSet<char>(chars2);
+            Assert.AreEqual(true, ms.IsProperSupersetOf(ms2));
+        }
+        [TestMethod]
+        public void IsNotProperSupersetMs()
+        {
+            char[] chars = new char[] { 'a', 'b', 'c', 'd', 'e' };
+            var ms = new MultiSet<char>(chars);
+            char[] chars2 = new char[] { 'a', 'b', 'c', 'd', 'e' };
+            var ms2 = new MultiSet<char>(chars2);
+            Assert.AreEqual(false, ms.IsProperSupersetOf(ms2));
+        }
+        [TestMethod]
+        public void CopyToMs()
+        {
+            char[] chars = new char[] { 'a', 'a', 'b', 'c', 'd', 'e' };
+            var ms = new MultiSet<char>(chars);
+            char[] outputArr = new char[chars.Length];
+            ms.CopyTo(outputArr, 0);
+            Assert.AreEqual(string.Concat(chars), string.Concat(outputArr));
+        }
+        [TestMethod]
+        public void OverlapsMs()
+        {
+            char[] chars = new char[] { 'a', 'a', 'b', 'c', 'd', 'e' };
+            var ms = new MultiSet<char>(chars);
+            char[] testChar = new char[] { 'a' };
+            Assert.AreEqual(true, ms.Overlaps(testChar));
+        }
+        [TestMethod]
+        public void NotOverlapsMs()
+        {
+            char[] chars = new char[] { 'a', 'a', 'b', 'c', 'd', 'e' };
+            var ms = new MultiSet<char>(chars);
+            char[] testChar = new char[] { 'x' };
+            Assert.AreEqual(false, ms.Overlaps(testChar));
+        }
+        [TestMethod]
+        public void MultiSetEqualsMs()
+        {
+            char[] chars = new char[] { 'a', 'a', 'b', 'c', 'd', 'e' };
+            var ms = new MultiSet<char>(chars);
+            char[] chars2 = new char[] { 'e', 'd', 'c', 'b', 'a','a'};
+            var ms2 = new MultiSet<char>(chars);
+            Assert.AreEqual(true, ms.MultiSetEquals(ms2));
+        }
+        [DataTestMethod]
+        [DataRow("a, a", 'a','a')]
+        [DataRow("Multiset is empty")]
+        [DataRow("a, b, c", 'a', 'b','c')]
+        public void ToStringMs(string output, params char[] args)
+        {
+            var ms = new MultiSet<char>(args);
+            Assert.AreEqual(output, ms.ToString());
+        }
+        [TestMethod]
+        public void EmptyMs()
+        {
+            var ms = MultiSet<char>.Empty;
+            Assert.AreEqual(true, ms.IsEmpty);
+        }
+        [TestMethod]
+        public void OperatorPlusMs()
+        {
+            char[] chars = new char[] { 'a', 'd'};
+            var ms = new MultiSet<char>(chars);
+            char[] chars2 = new char[] { 'd', 'c'};
+            var ms2 = new MultiSet<char>(chars2);
+            var ms3 = ms + ms2;
+            Assert.AreEqual("a, d, d, c", ms3.ToString());
+        }
+        [TestMethod]
+        public void OperatorMinusMs()
+        {
+            char[] chars = new char[] { 'a', 'd' };
+            var ms = new MultiSet<char>(chars);
+            char[] chars2 = new char[] { 'd', 'c' };
+            var ms2 = new MultiSet<char>(chars2);
+            var ms3 = ms - ms2;
+            Assert.AreEqual("a", ms3.ToString());
+        }
+        [TestMethod]
+        public void OperatorMultiplyMs()
+        {
+            char[] chars = new char[] { 'a', 'd' };
+            var ms = new MultiSet<char>(chars);
+            char[] chars2 = new char[] { 'd', 'c' };
+            var ms2 = new MultiSet<char>(chars2);
+            var ms3 = ms * ms2;
+            Assert.AreEqual("d", ms3.ToString());
         }
     }
 }
