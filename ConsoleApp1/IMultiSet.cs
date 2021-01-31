@@ -22,40 +22,6 @@ namespace km.Collections.MultiZbior
 
         /*
 
- 
-
-         modyfikuje bieżący multizbiór tak, aby zawierał tylko te elementy
-         które wystepują w `other` lub występują w bieżacym multizbiorze,
-         ale nie wystepują równocześnie w obu
-         zgłasza `ArgumentNullException` jeśli `other` jest `null`
-         zgłasza `NotSupportedException` jeśli multizbior jest tylko do odczytu
-         zwraca referencję tej instancji multizbioru (`this`)
-        public MultiSet<T> SymmetricExceptWith(IEnumerable<T> other);
-
-         określa, czy multizbiór jest podzbiorem `other`
-         zgłasza `ArgumentNullException`, jeśli `other` jest `null`
-        public bool IsSubsetOf(IEnumerable<T> other);
-
-         określa, czy multizbiór jest podzbiorem właściwym `other` (silna inkluzja)
-         zgłasza `ArgumentNullException`, jeśli `other` jest `null`
-        public bool IsProperSubsetOf(IEnumerable<T> other);
-
-         określa, czy multizbiór jest nadzbiorem `other`
-         zgłasza `ArgumentNullException`, jeśli `other` jest `null`
-        public bool IsSupersetOf(IEnumerable<T> other);
-
-         określa, czy multizbiór jest nadzbiorem właściwym `other` (silna inkluzja)
-         zgłasza `ArgumentNullException`, jeśli `other` jest `null`
-        public bool IsProperSupersetOf(IEnumerable<T> other);
-
-         określa, czy multizbiór i `other` mają przynajmniej jeden element wspólny
-         zgłasza `ArgumentNullException`, jeśli `other` jest `null`
-        public bool Overlaps(IEnumerable<T> other);
-
-         określa, czy multizbiór i `other` mają takie same elementy w tej samej liczności
-         nie zwracając uwagi na kolejność ich zapamiętania
-         zgłasza `ArgumentNullException`, jeśli `other` jest `null`
-        public bool MultiSetEquals(IEnumerable<T> other);
 
 
          zwraca obiekt wykorzystywany do określania równości elementów kolekcji
@@ -63,21 +29,19 @@ namespace km.Collections.MultiZbior
          -------------------------
 
 
+         Konstruktor, tworzy pusty multizbiór, w którym równość elementów zdefiniowana jest
+         za pomocą obiektu `comparer`
+        public MultiSet(IEqualityComparer<T> comparer)
+
+
+         Konstruktor, tworzy multizbiór wczytując wszystkie elementy z `sequence`
+         Równośc elementów zdefiniowana jest za pomocą obiektu `comparer`
+        public MultiSet(IEnumerable<T> sequence, IEqualityComparer<T> comparer)
 
          -------------------------
          konstruktory, metody statyczne i operatory -> do zaimplementowania (nie da się zadeklarować w interfejsie)
 
 
-         Konstruktor, tworzy pusty multizbiór, w którym równość elementów zdefiniowana jest
-         za pomocą obiektu `comparer`
-        public MultiSet(IEqualityComparer<T> comparer)
-
-         Konstruktor, tworzy multizbiór wczytując wszystkie elementy z `sequence`
-        public MultiSet(IEnumerable<T> sequence)
-
-         Konstruktor, tworzy multizbiór wczytując wszystkie elementy z `sequence`
-         Równośc elementów zdefiniowana jest za pomocą obiektu `comparer`
-        public MultiSet(IEnumerable<T> sequence, IEqualityComparer<T> comparer)
 
          tworzy nowy multizbiór jako sumę multizbiorów `first` i `second`
          zwraca `ArgumentNullException`, jeśli którykolwiek z parametrów jest `null`
